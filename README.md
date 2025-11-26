@@ -54,13 +54,15 @@ npm run build:admin
 ## Project Structure
 
 ```
-game/           # Main game application
-admin/          # Admin development tool
+game/           # Main game application (public)
+admin/          # Admin development tool (internal use only)
 shared/         # Shared code (types, utilities)
 supabase/       # Backend (migrations, functions)
 tests/          # Playwright tests
 docs/           # Documentation
 ```
+
+**Note**: This is a monorepo containing both the public game and internal admin tool. The admin tool is for development/management purposes only and should be deployed with access restrictions.
 
 See [docs/README.md](docs/README.md) for detailed documentation.
 
@@ -75,6 +77,25 @@ See [docs/README.md](docs/README.md) for detailed documentation.
 - Restart dev server after changing config files (tailwind.config.js, vite.config.ts)
 - Use `formatNumber()` utility for all numeric stat displays
 - All UI changes must be tested (see docs/ui-testing-workflow-update.md)
+
+## Deployment
+
+### Vercel Setup (Monorepo)
+
+This monorepo deploys as two separate Vercel projects:
+
+**Game (Public)**
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Install Command: `npm install`
+
+**Admin Tool (Internal - Enable Password Protection)**
+- Build Command: `npm run build:admin`
+- Output Directory: `dist-admin`
+- Install Command: `npm install`
+- Security: Enable Vercel Password Protection or Authentication
+
+Both projects use the same Git repository but different build outputs.
 
 ## Testing
 
