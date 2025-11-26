@@ -1,0 +1,11 @@
+/* Admin-specific overrides for Xianxia theme */
+body {
+  background-color: #020617 !important; /* slate-950 */
+  color: #fef3c7 !important; /* amber-100 */
+}
+
+/* Ensure root element also has dark background */
+#root {
+  min-height: 100vh;
+  background-color: #020617;
+}
