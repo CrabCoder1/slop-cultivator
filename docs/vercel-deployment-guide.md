@@ -8,6 +8,11 @@ Slop Cultivator is deployed as two separate Vercel projects:
 
 ## Live URLs
 
+### Production (Custom Domain)
+- **Game**: https://slop.crabcode.foo
+- **Admin Tool**: https://admin.crabcode.foo
+
+### Vercel Default URLs
 - **Game**: https://slop-cultivator-game.vercel.app
 - **Admin Tool**: https://slop-cultivator-admin.vercel.app
 
@@ -119,3 +124,41 @@ The projects use fixed ports:
 - Admin: `localhost:5177`
 
 These ports are only for local development and don't affect Vercel deployment.
+
+## Custom Domain Configuration
+
+The project uses custom domains from Porkbun:
+
+### Current Setup
+- **Domain**: `crabcode.foo`
+- **Game Subdomain**: `slop.crabcode.foo`
+- **Admin Subdomain**: `admin.crabcode.foo`
+
+### DNS Configuration (Porkbun)
+Both subdomains use A records pointing to Vercel:
+
+| Type | Host  | Answer       | TTL |
+|------|-------|--------------|-----|
+| A    | slop  | 76.76.21.21  | 600 |
+| A    | admin | 76.76.21.21  | 600 |
+
+### Adding Domains to Vercel
+Domains were added using Vercel CLI:
+
+```bash
+# Add game domain
+vercel link --yes --project slop-cultivator-game
+vercel domains add slop.crabcode.foo
+
+# Add admin domain
+vercel link --yes --project slop-cultivator-admin
+vercel domains add admin.crabcode.foo
+```
+
+### SSL Certificates
+- Automatically provisioned by Vercel
+- Renewed automatically
+- HTTPS enforced by default
+
+### Verification
+After adding DNS records, Vercel automatically verifies domain ownership. You'll receive an email when verification completes (usually 5-30 minutes).

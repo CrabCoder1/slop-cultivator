@@ -2,6 +2,8 @@
 
 A tower defense game with RPG elements built with React, TypeScript, and Supabase. Players defend a castle from waves of enemies by deploying cultivators with unique abilities, stats, and equipment.
 
+**🎮 Play Now**: https://slop.crabcode.foo
+
 ## Features
 
 - **Mobile Cultivators**: Deploy units that can move within zones (not static towers)
