@@ -135,12 +135,14 @@ The project uses custom domains from Porkbun:
 - **Admin Subdomain**: `admin.crabcode.foo`
 
 ### DNS Configuration (Porkbun)
-Both subdomains use A records pointing to Vercel:
+Both subdomains use CNAME records pointing to Vercel's DNS:
 
-| Type | Host  | Answer       | TTL |
-|------|-------|--------------|-----|
-| A    | slop  | 76.76.21.21  | 600 |
-| A    | admin | 76.76.21.21  | 600 |
+| Type  | Host  | Answer                              | TTL |
+|-------|-------|-------------------------------------|-----|
+| CNAME | slop  | 07e94d50f6f68b79.vercel-dns-017.com | 600 |
+| CNAME | admin | 11edd9feafbf7d96.vercel-dns-017.com | 600 |
+
+**Note**: CNAME records are preferred over A records as they automatically follow Vercel's infrastructure changes.
 
 ### Adding Domains to Vercel
 Domains were added using Vercel CLI:
