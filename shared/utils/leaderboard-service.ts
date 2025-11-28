@@ -117,7 +117,7 @@ export async function getTopScores(limit: number = 100, mapKey?: string): Promis
       .from('leaderboard_scores')
       .select(`
         *,
-        profiles:user_id (
+        profiles!leaderboard_scores_user_id_fkey (
           username,
           display_name,
           avatar_url
@@ -158,7 +158,7 @@ export async function getUserScores(userId: string, limit: number = 10): Promise
       .from('leaderboard_scores')
       .select(`
         *,
-        profiles:user_id (
+        profiles!leaderboard_scores_user_id_fkey (
           username,
           display_name,
           avatar_url
@@ -244,7 +244,7 @@ export async function getPersonalBest(userId?: string): Promise<LeaderboardScore
       .from('leaderboard_scores')
       .select(`
         *,
-        profiles:user_id (
+        profiles!leaderboard_scores_user_id_fkey (
           username,
           display_name,
           avatar_url
