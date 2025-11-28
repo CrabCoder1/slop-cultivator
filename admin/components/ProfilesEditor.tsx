@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../../game/utils/supabase/client';
+import { supabaseAdmin as supabase } from '../utils/supabase-admin-client';
 import ProfilesList from './ProfilesList';
 import ProfileDetails from './ProfileDetails';
 

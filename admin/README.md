@@ -15,13 +15,39 @@ Development tool for tweaking game parameters in real-time.
 - **Cultivator Editor**: ⚠️ Deprecated - Use People Editor instead
 - **Enemy Editor**: ⚠️ Deprecated - Use People Editor instead
 
+## Setup
+
+### 1. Get Your Supabase Service Role Key
+
+The admin tool requires the service role key to bypass Row Level Security policies.
+
+1. Go to your [Supabase Dashboard](https://supabase.com/dashboard)
+2. Select your project
+3. Navigate to **Project Settings** > **API**
+4. Copy the `service_role` key (NOT the `anon` key)
+
+⚠️ **WARNING**: The service role key bypasses all security. Never expose it to end users or commit it to git!
+
+### 2. Add to Environment Variables
+
+Add the service role key to your `.env.local` file:
+
+```bash
+# Your existing Supabase config
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your_anon_key_here
+
+# Admin Tool Only - DO NOT COMMIT
+VITE_SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+```
+
 ## Running the Admin Tool
 
 ### Development Mode
 ```bash
 npm run dev:admin
 ```
-The admin tool will run on `http://localhost:5174` (different port from game)
+The admin tool will run on `http://localhost:5177` (different port from game)
 
 ### Build for Production
 ```bash
