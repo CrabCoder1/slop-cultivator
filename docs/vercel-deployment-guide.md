@@ -8,13 +8,13 @@ Slop Cultivator is deployed as two separate Vercel projects:
 
 ## Live URLs
 
-### Production (Custom Domain)
-- **Game**: https://slop.crabcode.foo
-- **Admin Tool**: https://admin.crabcode.foo
+### Production
+- **Game**: https://slop.crabcode.foo (custom domain)
+- **Admin Tool**: https://slop-cultivator-admin.vercel.app (Vercel Authentication protected)
 
 ### Vercel Default URLs
-- **Game**: https://slop-cultivator-game.vercel.app
-- **Admin Tool**: https://slop-cultivator-admin.vercel.app
+- **Game**: https://slop-cultivator-game.vercel.app (redirects to custom domain)
+- **Admin Tool**: https://slop-cultivator-admin-qxyjb93w5-joshs-projects-b825d908.vercel.app (deployment-specific URL, changes with each deploy)
 
 ## Project Structure
 
@@ -131,18 +131,19 @@ The project uses custom domains from Porkbun:
 
 ### Current Setup
 - **Domain**: `crabcode.foo`
-- **Game Subdomain**: `slop.crabcode.foo`
-- **Admin Subdomain**: `admin.crabcode.foo`
+- **Game Subdomain**: `slop.crabcode.foo` (custom domain)
+- **Admin Tool**: Uses default Vercel domain (no custom domain to enable Vercel Authentication)
 
 ### DNS Configuration (Porkbun)
-Both subdomains use CNAME records pointing to Vercel's DNS:
+Only the game uses a custom domain:
 
 | Type  | Host  | Answer                              | TTL |
 |-------|-------|-------------------------------------|-----|
 | CNAME | slop  | 07e94d50f6f68b79.vercel-dns-017.com | 600 |
-| CNAME | admin | 11edd9feafbf7d96.vercel-dns-017.com | 600 |
 
 **Note**: CNAME records are preferred over A records as they automatically follow Vercel's infrastructure changes.
+
+**Admin Tool**: The admin tool intentionally uses the default `.vercel.app` domain to enable Vercel Authentication (password protection), which only works on Vercel domains.
 
 ### Adding Domains to Vercel
 Domains were added using Vercel CLI:
