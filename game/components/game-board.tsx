@@ -145,6 +145,32 @@ export function GameBoard({
   const [hasProcessedGameOver, setHasProcessedGameOver] = useState(false);
   const [showNewPBNotification, setShowNewPBNotification] = useState(false);
   const [finalTimePlayed, setFinalTimePlayed] = useState<number>(0);
+  const [isAltKeyPressed, setIsAltKeyPressed] = useState(false);
+
+  // Track Alt key state for range indicator visibility
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Alt') {
+        e.preventDefault(); // Prevent browser menu from showing
+        setIsAltKeyPressed(true);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Alt') {
+        e.preventDefault(); // Prevent browser menu behavior
+        setIsAltKeyPressed(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
 
   // Handle game over - save score locally and auto-submit if new PB
   useEffect(() => {
@@ -850,9 +876,11 @@ export function GameBoard({
                   </>
                 )}
                 
-                {/* Base range indicator - always visible with subtle styling */}
+                {/* Base range indicator - visible when Alt key is held */}
                 <div
-                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border-2 transition-all border-amber-600/50 bg-amber-400/10 group-hover:opacity-0 pointer-events-none"
+                  className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full border-2 transition-all border-amber-600/50 bg-amber-400/10 group-hover:opacity-0 pointer-events-none ${
+                    isAltKeyPressed ? 'opacity-100' : 'opacity-0'
+                  }`}
                   style={{
                     width: `${(tower.range * 2 / GRID_SIZE) * 100}%`,
                     height: `${(tower.range * 2 / GRID_SIZE) * 100}%`,
@@ -870,15 +898,31 @@ export function GameBoard({
                     height: `${(tower.range * 2 / GRID_SIZE) * 100}%`,
                   }}
                 />
-                {/* Tower - fixed size to fit grid with padding */}
-                <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 drop-shadow-lg group-hover:scale-110 transition-all ${isDamaged ? 'brightness-[300%] scale-125' : ''} ${isLevelingUp ? 'scale-125 brightness-150' : ''}`} style={{ fontSize: '24px', lineHeight: '24px' }}>
+                {/* Tower - scales with cell size (80% of cell) */}
+                <div 
+                  className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 drop-shadow-lg group-hover:scale-110 transition-all ${isDamaged ? 'brightness-[300%] scale-125' : ''} ${isLevelingUp ? 'scale-125 brightness-150' : ''}`} 
+                  style={{ fontSize: '80%', lineHeight: 1, width: '80%', height: '80%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                >
                   {cultivatorTypes[tower.type].emoji}
                 </div>
                 
-                {/* Level badge */}
+                {/* Level badge - hidden unless highlighted, Alt held, or leveling up */}
                 <div 
-                  className="absolute -top-2 -right-2 rounded-full text-white text-xs font-bold w-5 h-5 flex items-center justify-center z-20 border-2 border-white shadow-lg"
-                  style={{ backgroundColor: levelBadgeColor }}
+                  className={`absolute rounded-full text-white font-bold flex items-center justify-center z-20 border-2 border-white shadow-lg transition-all duration-300 ${
+                    isLevelingUp 
+                      ? 'opacity-100 scale-125 animate-pulse' 
+                      : isSelected || isAltKeyPressed 
+                        ? 'opacity-100' 
+                        : 'opacity-0 group-hover:opacity-100'
+                  }`}
+                  style={{ 
+                    backgroundColor: levelBadgeColor,
+                    top: '-10%',
+                    right: '-10%',
+                    width: '45%',
+                    height: '45%',
+                    fontSize: '50%'
+                  }}
                 >
                   {tower.level}
                 </div>
@@ -903,9 +947,12 @@ export function GameBoard({
                   </div>
                 )}
                 
-                {/* XP bar - show below tower */}
+                {/* XP bar - positioned at bottom edge of cell */}
                 {tower.level < MAX_LEVEL && (
-                  <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-12 h-1 bg-gray-700 rounded z-20">
+                  <div 
+                    className="absolute left-1/2 transform -translate-x-1/2 -translate-y-full w-3/4 h-1 bg-gray-700 rounded z-20"
+                    style={{ top: '100%' }}
+                  >
                     <div
                       className="h-full rounded transition-all"
                       style={{ 
@@ -916,15 +963,22 @@ export function GameBoard({
                   </div>
                 )}
                 
-                {/* Health bar - only show when damaged */}
-                {tower.health < tower.maxHealth && (
-                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-10 h-1 bg-red-900 rounded z-20">
-                    <div
-                      className="h-full bg-green-500 rounded transition-all"
-                      style={{ width: `${(tower.health / tower.maxHealth) * 100}%` }}
-                    />
-                  </div>
-                )}
+                {/* Health bar - positioned just above XP bar at bottom of cell */}
+                <div 
+                  className={`absolute left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-red-900 rounded z-20 transition-opacity ${
+                    tower.health < tower.maxHealth && (isSelected || isAltKeyPressed) 
+                      ? 'opacity-100' 
+                      : tower.health < tower.maxHealth 
+                        ? 'opacity-0 group-hover:opacity-100' 
+                        : 'opacity-0'
+                  }`}
+                  style={{ top: '85%' }}
+                >
+                  <div
+                    className="h-full bg-green-500 rounded transition-all"
+                    style={{ width: `${(tower.health / tower.maxHealth) * 100}%` }}
+                  />
+                </div>
                 {/* Hover hint */}
                 <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 text-amber-300 text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20">
                   {tower.name || cultivatorTypes[tower.type].name} • Lv.{tower.level} • {tower.kills} kills
