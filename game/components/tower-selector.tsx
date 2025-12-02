@@ -1,4 +1,6 @@
 import { formatNumber } from '../utils/number-formatter';
+import { Icon } from './ui/icon';
+import { weaponIcons, skillIcons, type AssetEntry } from '../assets/asset-manifest';
 
 interface TowerSelectorProps {
   towerTypes: any;
@@ -7,6 +9,17 @@ interface TowerSelectorProps {
   qi: number;
   gameStatus: string;
 }
+
+/**
+ * Maps cultivator type keys to their corresponding asset entries.
+ * This allows progressive migration from emojis to SVG icons.
+ */
+const cultivatorAssetMap: Record<string, AssetEntry> = {
+  sword: weaponIcons.sword,      // Ready - uses sword.svg
+  palm: skillIcons.palmAura,     // Pending - falls back to ✨ emoji
+  arrow: weaponIcons.bow,        // Pending - falls back to 🏹 emoji
+  lightning: skillIcons.stormFury, // Pending - falls back to ⚡ emoji
+};
 
 export function TowerSelector({ towerTypes, selectedType, onSelectType, qi, gameStatus }: TowerSelectorProps) {
   const isGameOver = gameStatus === 'gameOver';
@@ -18,6 +31,7 @@ export function TowerSelector({ towerTypes, selectedType, onSelectType, qi, game
         {Object.entries(towerTypes).map(([key, tower]: [string, any]) => {
           const canAfford = qi >= tower.cost && !isGameOver;
           const isSelected = selectedType === key;
+          const assetEntry = cultivatorAssetMap[key];
 
           return (
             <button
@@ -40,12 +54,21 @@ export function TowerSelector({ towerTypes, selectedType, onSelectType, qi, game
                 style={{ 
                   width: '30px', 
                   height: '30px', 
-                  fontSize: '24px', 
-                  lineHeight: '24px',
                   margin: '0 auto'
                 }}
               >
-                {tower.emoji}
+                {assetEntry ? (
+                  <Icon 
+                    asset={assetEntry} 
+                    size={24} 
+                    alt={tower.name}
+                  />
+                ) : (
+                  // Fallback to original emoji if no asset mapping exists
+                  <span style={{ fontSize: '24px', lineHeight: '24px' }}>
+                    {tower.emoji}
+                  </span>
+                )}
               </div>
               <div className="text-amber-100 text-xs mb-1 truncate" title={tower.name}>
                 {tower.name}
