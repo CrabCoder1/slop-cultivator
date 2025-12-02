@@ -1,9 +1,9 @@
-import { createClient } from '@supabase/supabase-js';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-const projectId = 'rymuyfctxhlsyiiidpry';
-const supabaseUrl = `https://${projectId}.supabase.co`;
+const projectRef = 'rymuyfctxhlsyiiidpry';
+
+// st supabaseUrl = `https://${projectId}.supabase.co`;
 const publicAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5bXV5ZmN0eGhsc3lpaWlkcHJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI5NjE2MTQsImV4cCI6MjA3ODUzNzYxNH0.naDZmpcmyCATQFbP6H8UXjCf0y4QCH7aGOCz0mYb-Y0';
 
 const supabase = createClient(supabaseUrl, publicAnonKey);
