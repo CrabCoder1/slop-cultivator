@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Blade - jian style straight sword -->
+  <path d="M12 2L14 12L12 14L10 12L12 2Z" fill="#B8C4D0"/>
+  <!-- Blade edge highlight -->
+  <path d="M12 2L13 10L12 12L12 2Z" fill="#D4DEE8"/>
+  <!-- Guard - cloud motif -->
+  <ellipse cx="12" cy="15" rx="4" ry="1.5" fill="#DAA520"/>
+  <!-- Handle wrap -->
+  <rect x="11" y="16" width="2" height="5" fill="#8B0000"/>
+  <!-- Pommel -->
+  <circle cx="12" cy="22" r="1.5" fill="#DAA520"/>
+</svg>

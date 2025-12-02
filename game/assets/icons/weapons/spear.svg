@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Spearhead - leaf blade style -->
+  <path d="M12 1L15 7L12 9L9 7L12 1Z" fill="#B8C4D0"/>
+  <!-- Spearhead highlight -->
+  <path d="M12 1L13.5 6L12 8L12 1Z" fill="#D4DEE8"/>
+  <!-- Shaft -->
+  <rect x="11" y="8" width="2" height="14" fill="#8B4513"/>
+  <!-- Red tassel -->
+  <path d="M10 9Q8 11 9 14M14 9Q16 11 15 14" stroke="#8B0000" stroke-width="1.5" fill="none"/>
+</svg>

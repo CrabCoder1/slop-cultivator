@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- Bag body -->
+  <path d="M5 9h14v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9z" fill="#8B5A2B"/>
+  <!-- Top flap -->
+  <path d="M4 9a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3H4z" fill="#A0522D"/>
+  <!-- Handle -->
+  <path d="M9 6V4a3 3 0 0 1 6 0v2" stroke="#5D3A1A" stroke-width="2" fill="none"/>
+  <!-- Buckle -->
+  <circle cx="12" cy="12" r="1.5" fill="#DAA520"/>
+</svg>
