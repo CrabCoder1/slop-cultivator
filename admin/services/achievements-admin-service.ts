@@ -1,4 +1,6 @@
-import { supabaseAdmin as supabase } from '../utils/supabase-admin-client';
+// App: Admin
+
+import { supabase } from '../../game/utils/supabase/client';
 import type { Achievement } from '../../shared/types/composition-types';
 import { clearCompositionCache } from '../../shared/utils/composition-data-service';
 

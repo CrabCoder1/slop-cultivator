@@ -1,5 +1,7 @@
+// App: Admin
+
 import { useState, useEffect } from 'react';
-import { supabaseAdmin as supabase } from '../utils/supabase-admin-client';
+import { supabase } from '../../game/utils/supabase/client';
 import { UserProfile } from './ProfilesEditor';
 
 interface ProfileDetailsProps {
